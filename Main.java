@@ -9,6 +9,7 @@ public class Main {
         int[] minMax = minMax(a);
         System.out.println(minMax[0]);
         System.out.println(minMax[1]);
+        System.out.println(randomizedSelect(a, 0, a.length - 1, 9));
     }
 
     public static int minimum(int[] a){
@@ -74,5 +75,45 @@ public class Main {
             }
         }
         return minMax;
+    }
+
+    public static int randomizedSelect(int[]a, int p, int r, int x){
+        if(p == r){
+            return a[p];
+        }
+        int q = randomizedPartition(a, p, r);
+        int k = q - p + 1;
+        if(x==k){
+            return a[q];
+        }else if(x<k){
+            return randomizedSelect(a, p, q-1, x);
+        }else{
+            return randomizedSelect(a, q + 1, r, x-k);
+        }
+    }
+
+    public static int partition(int[] a, int p, int r){
+        int x = a[r];
+        int i = p - 1;
+        for (int j = p; j < r; j++){
+            if(a[j] <= x){
+                i++;
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+        int temp = a[i+1];
+        a[i+1] = a[r];
+        a[r] = temp;
+        return i+1;
+    }
+
+    public static int randomizedPartition(int[] a, int p, int r){
+        int i = (int) (Math.random() * (r - p) + p);
+        int temp = a[r];
+        a[r] = a[i];
+        a[i] = temp;
+        return partition(a, p, r);
     }
 }
