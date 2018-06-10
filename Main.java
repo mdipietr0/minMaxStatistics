@@ -9,7 +9,11 @@ public class Main {
         int[] minMax = minMax(a);
         System.out.println(minMax[0]);
         System.out.println(minMax[1]);
-        System.out.println(randomizedSelect(a, 0, a.length - 1, 9));
+        try {
+            System.out.println(randomizedSelect(a, 0, a.length - 1, 9));
+        } catch (Exception E){
+            System.out.println("i out of range");
+        }
     }
 
     public static int minimum(int[] a){
@@ -77,18 +81,21 @@ public class Main {
         return minMax;
     }
 
-    public static int randomizedSelect(int[]a, int p, int r, int x){
+    public static int randomizedSelect(int[]a, int p, int r, int i)throws Exception{
+        if(i > a.length){
+            throw new Exception();
+        }
         if(p == r){
             return a[p];
         }
         int q = randomizedPartition(a, p, r);
         int k = q - p + 1;
-        if(x==k){
+        if(i==k){
             return a[q];
-        }else if(x<k){
-            return randomizedSelect(a, p, q-1, x);
+        }else if(i<k){
+            return randomizedSelect(a, p, q-1, i);
         }else{
-            return randomizedSelect(a, q + 1, r, x-k);
+            return randomizedSelect(a, q + 1, r, i-k);
         }
     }
 
@@ -102,6 +109,9 @@ public class Main {
                 a[i] = a[j];
                 a[j] = temp;
             }
+        }
+        if(i+1 > 7) {
+            System.out.println(i + 1);
         }
         int temp = a[i+1];
         a[i+1] = a[r];
